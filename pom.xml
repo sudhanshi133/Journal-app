@@ -77,6 +77,8 @@
 						</exclude>
 					</excludes>
 				</configuration>
+<!--				 https://mvnrepository.com/artifact/org.eclipse.jetty/jetty-maven-plugin -->
+
 			</plugin>
 		</plugins>
 	</build>
