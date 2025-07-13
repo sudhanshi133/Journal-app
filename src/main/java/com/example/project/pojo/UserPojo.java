@@ -22,5 +22,37 @@ public class UserPojo {
     @NonNull
     private String password;
     @DBRef
-    private List<journalPojo> journals = new ArrayList<>();
+    private List<JournalPojo> journals = new ArrayList<>();
+
+    public List<JournalPojo> getJournals() {
+        return journals;
+    }
+
+    public void setJournals(List<JournalPojo> journals) {
+        this.journals = journals;
+    }
+
+    public @NonNull String getPassword() {
+        return password;
+    }
+
+    public void setPassword(@NonNull String password) {
+        this.password = password;
+    }
+
+    public @NonNull String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(@NonNull String userName) {
+        this.userName = userName;
+    }
+
+    public ObjectId getId() {
+        return id;
+    }
+
+    public void setId(ObjectId id) {
+        this.id = id;
+    }
 }

@@ -1,6 +1,7 @@
 package com.example.project.Service;
 
-import com.example.project.pojo.journalPojo;
+import com.example.project.pojo.UserPojo;
+import com.example.project.pojo.JournalPojo;
 import com.example.project.repository.JournalEntryRepository;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,16 +14,21 @@ import java.util.Optional;
 public class JournalEntryService {
     @Autowired
     private JournalEntryRepository journalEntryRepository;
+    @Autowired
+    private UserService userService;
 
-    public void saveEntry(journalPojo pojo){
-        journalEntryRepository.save(pojo);
+    public void saveEntry(JournalPojo pojo, String username){
+        UserPojo user = userService.findByUsername(username);
+        JournalPojo saved=journalEntryRepository.save(pojo);
+        user.getJournals().add(saved);
+        userService.saveUser(user);
     }
 
-    public List<journalPojo> getAllEntries(){
+    public List<JournalPojo> getAllEntries(){
         return journalEntryRepository.findAll();
     }
 
-    public Optional<journalPojo> getById(journalPojo pojo){
+    public Optional<JournalPojo> getById(JournalPojo pojo){
         ObjectId id = pojo.getId();
         return journalEntryRepository.findById(id);
     }

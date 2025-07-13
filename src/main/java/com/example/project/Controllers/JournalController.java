@@ -1,7 +1,9 @@
 package com.example.project.Controllers;
 
 import com.example.project.Service.JournalEntryService;
-import com.example.project.pojo.journalPojo;
+import com.example.project.Service.UserService;
+import com.example.project.pojo.JournalPojo;
+import com.example.project.pojo.UserPojo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -9,7 +11,6 @@ import org.springframework.http.HttpStatus;
 
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @RestController
@@ -17,24 +18,30 @@ import java.util.Optional;
 public class JournalController {
     @Autowired
     private JournalEntryService journalEntryService;
+    @Autowired
+    private UserService userService;
 
     @GetMapping
-    public List<journalPojo> get(){
+    public List<JournalPojo> get() {
         return journalEntryService.getAllEntries();
     }
 
     @PostMapping
-    public ResponseEntity<?> saveEntry(@RequestBody journalPojo journalPojo){
-        Optional<journalPojo> journalPojo1 = journalEntryService.getById(journalPojo);
+    public ResponseEntity<?> saveEntry(@RequestBody JournalPojo journalPojo, String username) {
+        Optional<JournalPojo> journalPojo1 = journalEntryService.getById(journalPojo);
         if (!journalPojo1.isPresent()) {
-            journalEntryService.saveEntry(journalPojo);
+            journalEntryService.saveEntry(journalPojo, username);
             return new ResponseEntity<>(journalPojo, HttpStatus.OK);
         }
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+    @PostMapping("{username}")
+    public ResponseEntity<?> createEntry(@RequestBody JournalPojo journalPojo, @PathVariable String username) {
+        try {
+            journalEntryService.saveEntry(journalPojo, username);
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-
-    @GetMapping("id/{myId}")
-    public List<journalPojo> get(@PathVariable Long myId){
-        return null;
     }
 }
