@@ -27,21 +27,12 @@ public class JournalController {
     }
 
     @PostMapping
-    public ResponseEntity<?> saveEntry(@RequestBody JournalPojo journalPojo, String username) {
+    public ResponseEntity<?> saveEntry(@RequestBody JournalPojo journalPojo,String username) {
         Optional<JournalPojo> journalPojo1 = journalEntryService.getById(journalPojo);
         if (!journalPojo1.isPresent()) {
-            journalEntryService.saveEntry(journalPojo, username);
+            journalEntryService.saveJournalEntry(journalPojo, username);
             return new ResponseEntity<>(journalPojo, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    }
-    @PostMapping("{username}")
-    public ResponseEntity<?> createEntry(@RequestBody JournalPojo journalPojo, @PathVariable String username) {
-        try {
-            journalEntryService.saveEntry(journalPojo, username);
-            return new ResponseEntity<>(HttpStatus.CREATED);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
     }
 }

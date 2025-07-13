@@ -17,7 +17,7 @@ public class JournalEntryService {
     @Autowired
     private UserService userService;
 
-    public void saveEntry(JournalPojo pojo, String username){
+    public void saveJournalEntry(JournalPojo pojo, String username){
         UserPojo user = userService.findByUsername(username);
         JournalPojo saved=journalEntryRepository.save(pojo);
         user.getJournals().add(saved);
