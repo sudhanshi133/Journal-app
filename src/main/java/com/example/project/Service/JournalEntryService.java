@@ -32,4 +32,21 @@ public class JournalEntryService {
         ObjectId id = pojo.getId();
         return journalEntryRepository.findById(id);
     }
+
+    public void deleteById(JournalPojo pojo,String username){
+        UserPojo user = userService.findByUsername(username);
+        user.getJournals().removeIf(p -> p.getId()==pojo.getId());
+        userService.saveUser(user);
+        ObjectId id = pojo.getId();
+        journalEntryRepository.deleteById(id);
+
+    }
+
+    public void updateJournalEntry(JournalPojo journalPojo) {
+       Optional<JournalPojo> pojo= journalEntryRepository.findById(journalPojo.getId());
+        JournalPojo existingPojo = pojo.get();
+        if(journalPojo.getTitle()!=null && !journalPojo.getTitle().isEmpty()) existingPojo.setTitle(journalPojo.getTitle());
+        if(journalPojo.getContent()!=null && !journalPojo.getContent().isEmpty()) existingPojo.setContent(journalPojo.getContent());
+        journalEntryRepository.save(existingPojo);
+    }
 }

@@ -5,10 +5,13 @@ import com.example.project.repository.UserRepository;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 @Component
+@Transactional
 public class UserService {
     @Autowired
     private UserRepository userRepository;
@@ -26,6 +29,13 @@ public class UserService {
     }
     public void deleteUser(ObjectId id) {
         userRepository.deleteById(id);
+    }
+
+    public void updateUser(String username,UserPojo newUser){
+        UserPojo user = userRepository.findByUserName(username);
+            user.setUserName(newUser.getUserName());
+            user.setPassword(newUser.getPassword());
+           userRepository.save(user);
     }
 
     public UserPojo findByUsername(String username){

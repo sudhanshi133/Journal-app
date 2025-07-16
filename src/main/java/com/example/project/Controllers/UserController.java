@@ -14,24 +14,20 @@ import java.util.List;
 public class UserController {
     @Autowired
     private UserService userService;
+
     @GetMapping
-    public List<UserPojo> getAllUsers(){
+    public List<UserPojo> getAllUsers() {
         return userService.getAllUsers();
     }
 
     @PostMapping
-    public void createUser(UserPojo user){
+    public void createUser(UserPojo user) {
         userService.saveUser(user);
     }
 
     @PutMapping("/{username}")
-    public ResponseEntity<?> updateUser(UserPojo user,@PathVariable String username){
-        UserPojo userInDb = userService.findByUsername(username);
-        if(userInDb!=null) {
-            userInDb.setUserName(user.getUserName());
-            userInDb.setPassword(user.getPassword());
-            userService.saveUser(userInDb);
-        }
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    public ResponseEntity<?> updateUser(UserPojo user, @PathVariable String username) {
+        userService.updateUser(username, user);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
