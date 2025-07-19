@@ -21,12 +21,12 @@ public class UserController {
     }
 
     @PostMapping
-    public void createUser(UserPojo user) {
+    public void createUser(@RequestBody UserPojo user) {
         userService.saveUser(user);
     }
 
     @PutMapping("/{username}")
-    public ResponseEntity<?> updateUser(UserPojo user, @PathVariable String username) {
+    public ResponseEntity<?> updateUser(@RequestBody UserPojo user, @PathVariable String username) {
         userService.updateUser(username, user);
         return new ResponseEntity<>(HttpStatus.OK);
     }
