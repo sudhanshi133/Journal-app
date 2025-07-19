@@ -20,6 +20,7 @@ public class SpringSecurity {
     @Autowired
     private UserDetailsService userDetailsService;
 
+    @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 // Disable CSRF protection. This is common for stateless REST APIs.
@@ -33,9 +34,9 @@ public class SpringSecurity {
         return http.build();
     }
 // on fetching data from db through userDetailsService we need to encode the password so that it matches with what is stored in db
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
-    }
+     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+     }
 //  Role: This method (when present and correctly overridden in a WebSecurityConfigurerAdapter subclass)
 //  acts as the central configuration point for how authentication should happen.
 //  auth.userDetailsService(userDetailsService): This line tells Spring Security: "When
