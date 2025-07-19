@@ -14,7 +14,7 @@ import java.util.List;
 public class PublicController {
 @Autowired
 private UserService userService;
-    @GetMapping
+    @GetMapping("/create-user")
     public List<UserPojo> getAllUsers() {
         return userService.getAllUsers();
     }
