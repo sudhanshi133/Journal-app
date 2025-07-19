@@ -32,11 +32,18 @@ public class SpringSecurity {
 
         return http.build();
     }
-
+// on fetching data from db throuh userDetailsService we need to encode the password so that it matches with what is stored in db
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
     }
-
+//  Role: This method (when present and correctly overridden in a WebSecurityConfigurerAdapter subclass)
+//  acts as the central configuration point for how authentication should happen.
+//  auth.userDetailsService(userDetailsService): This line tells Spring Security: "When
+//  someone tries to authenticate, go to this userDetailsService (your UserDetailsServiceImpl) to
+//  load the user's details (username, hashed password, roles) from the database."
+// .passwordEncoder(passwordEncoder()): This line tells Spring Security: "And when you need to
+// compare the plain-text password provided by the user with the hashed password you got from the
+// userDetailsService, use this passwordEncoder (your BCryptPasswordEncoder) to do the secure comparison."
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
