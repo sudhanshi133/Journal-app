@@ -6,7 +6,10 @@ import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -15,6 +18,7 @@ import java.util.Optional;
 public class UserService {
     @Autowired
     private UserRepository userRepository;
+    private static final PasswordEncoder encoder=new BCryptPasswordEncoder();
 
     public List<UserPojo> getAllUsers() {
         return userRepository.findAll();
@@ -25,6 +29,8 @@ public class UserService {
     }
 
     public void saveUser(UserPojo user) {
+        user.setPassword(encoder.encode(user.getPassword()));
+        user.setRoles(Arrays.asList("USER"));
         userRepository.save(user);
     }
     public void deleteUser(ObjectId id) {

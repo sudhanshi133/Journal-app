@@ -14,12 +14,6 @@ import java.util.List;
 public class UserController {
     @Autowired
     private UserService userService;
-
-    @GetMapping
-    public List<UserPojo> getAllUsers() {
-        return userService.getAllUsers();
-    }
-
     @PostMapping
     public void createUser(@RequestBody UserPojo user) {
         userService.saveUser(user);
