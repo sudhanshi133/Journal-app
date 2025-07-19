@@ -16,9 +16,19 @@ import java.util.List;
 public class UserPojo {
     @Id
     private ObjectId id;
+
+    public List<String> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<String> roles) {
+        this.roles = roles;
+    }
+
     @Indexed(unique = true)
     @NonNull
     private String userName;
+    private List<String> roles;
     @NonNull
     private String password;
     @DBRef
