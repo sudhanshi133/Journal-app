@@ -23,6 +23,8 @@ public class JournalEntryService {
         UserPojo user = userService.findByUsername(username);
         JournalPojo saved=journalEntryRepository.save(pojo);
         user.getJournals().add(saved);
+        // here i was just checking through this if transaction is working or not
+       // user.setUserName(null);
         userService.saveUser(user);
     }
 
