@@ -28,7 +28,7 @@ public class UserService {
     }
 
     public void saveUser(UserPojo user) {
-        if(userRepository.findByUserName(user.getUserName())==null){
+        if(userRepository.findByUserName(user.getUserName())!=null){
             throw new RuntimeException("User already exist");
         }
         user.setPassword(encoder.encode(user.getPassword()));

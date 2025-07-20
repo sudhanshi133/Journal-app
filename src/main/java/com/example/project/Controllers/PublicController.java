@@ -12,8 +12,8 @@ import java.util.List;
 @RequestMapping("/public")
 @RestController
 public class PublicController {
-@Autowired
-private UserService userService;
+    @Autowired
+    private UserService userService;
     @PostMapping("/create-user")
     public ResponseEntity<?> saveUsers(@RequestBody UserPojo user) {
         try {
