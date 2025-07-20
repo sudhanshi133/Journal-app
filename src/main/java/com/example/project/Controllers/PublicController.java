@@ -3,9 +3,9 @@ package com.example.project.Controllers;
 import com.example.project.Service.UserService;
 import com.example.project.pojo.UserPojo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -14,8 +14,14 @@ import java.util.List;
 public class PublicController {
 @Autowired
 private UserService userService;
-    @GetMapping("/create-user")
-    public List<UserPojo> getAllUsers() {
-        return userService.getAllUsers();
+    @PostMapping("/create-user")
+    public ResponseEntity<?> saveUsers(@RequestBody UserPojo user) {
+        try {
+            userService.saveUser(user);
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        }
+        catch(Exception ex){
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
     }
 }

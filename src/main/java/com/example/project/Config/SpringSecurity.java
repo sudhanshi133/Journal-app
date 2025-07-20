@@ -28,9 +28,8 @@ public class SpringSecurity {
                 .csrf(csrf -> csrf.disable())
                 // Configure authorization rules for HTTP requests
                 .authorizeHttpRequests(auth -> auth
-                                .requestMatchers("/journal/**","/user/**").permitAll()
-                )
-                .httpBasic();
+                                .requestMatchers("/journal/**","/user/**","/public/**").permitAll()
+                );
         return http.build();
     }
 // on fetching data from db through userDetailsService we need to encode the password so that it matches with what is stored in db

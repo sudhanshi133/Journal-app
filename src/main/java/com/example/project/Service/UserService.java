@@ -11,7 +11,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 @Component
 @Transactional
@@ -29,6 +28,9 @@ public class UserService {
     }
 
     public void saveUser(UserPojo user) {
+        if(userRepository.findByUserName(user.getUserName())==null){
+            throw new RuntimeException("User already exist");
+        }
         user.setPassword(encoder.encode(user.getPassword()));
         user.setRoles(Arrays.asList("USER"));
         userRepository.save(user);
