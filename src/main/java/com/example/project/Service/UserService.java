@@ -41,8 +41,9 @@ public class UserService {
 
     public void updateUser(String username,UserPojo newUser){
         UserPojo user = userRepository.findByUserName(username);
+        System.out.println(newUser.getUserName()+" "+newUser.getPassword());
             user.setUserName(newUser.getUserName());
-            user.setPassword(newUser.getPassword());
+        user.setPassword(encoder.encode(newUser.getPassword()));
            userRepository.save(user);
     }
 
