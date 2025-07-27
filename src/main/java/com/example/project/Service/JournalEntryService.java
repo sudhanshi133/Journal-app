@@ -3,6 +3,7 @@ package com.example.project.Service;
 import com.example.project.pojo.UserPojo;
 import com.example.project.pojo.JournalPojo;
 import com.example.project.repository.JournalEntryRepository;
+import com.example.project.repository.UserRepository;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -18,6 +19,8 @@ public class JournalEntryService {
     private JournalEntryRepository journalEntryRepository;
     @Autowired
     private UserService userService;
+    @Autowired
+    private UserRepository userRepository;
 
     public void saveJournalEntry(JournalPojo pojo, String username){
         UserPojo user = userService.findByUsername(username);
@@ -25,24 +28,22 @@ public class JournalEntryService {
         user.getJournals().add(saved);
         // here i was just checking through this if transaction is working or not
        // user.setUserName(null);
-        userService.saveUser(user);
+        userRepository.save(user);
     }
 
     public List<JournalPojo> getAllEntries(){
         return journalEntryRepository.findAll();
     }
 
-    public Optional<JournalPojo> getById(JournalPojo pojo){
-        ObjectId id = pojo.getId();
+    public Optional<JournalPojo> getById(ObjectId id){
         return journalEntryRepository.findById(id);
     }
 
-    public void deleteById(JournalPojo pojo,String username){
+    public void deleteById(ObjectId id,String username){
         UserPojo user = userService.findByUsername(username);
-        user.getJournals().removeIf(p -> p.getId()==pojo.getId());
-        userService.saveUser(user);
-        ObjectId id = pojo.getId();
+        user.getJournals().removeIf(p -> p.getId()==id);
         journalEntryRepository.deleteById(id);
+        userRepository.save(user);
 
     }
 

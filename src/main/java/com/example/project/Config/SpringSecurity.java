@@ -34,7 +34,7 @@ public class SpringSecurity {
                 // and thus don't need CSRF tokens.
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers( "/public/**").permitAll()
+                        .requestMatchers( "/public/**","/admin/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .httpBasic();
